@@ -221,6 +221,10 @@
 			<groupId>net.sf</groupId>
 			<artifactId>jrecord</artifactId>
 			<version>0.90.2</version>
+			<scope>system</scope>
+			<systemPath>
+				${project.basedir}/lib/jrecord-0.90.2.jar
+			</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>net.sf</groupId>

@@ -1,6 +1,6 @@
 package com.lloydsbanking.fraud.mqtest;
 
-import com.lbg.example.ReadFi12002i;
+
 import net.sf.JRecord.cg.Generate;
 import net.sf.JRecord.cg.details.ArgumentOption;
 import org.springframework.boot.SpringApplication;
