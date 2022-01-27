@@ -1,0 +1,83 @@
+<server>
+	<featureManager>
+		<feature>collectiveMember-1.0</feature>
+		<feature>transportSecurity-1.0</feature>
+		<feature>requestTiming-1.0</feature>
+		<feature>monitor-1.0</feature>
+		<feature>appSecurity-2.0</feature>
+		<feature>timedOperations-1.0</feature>
+		<feature>restConnector-2.0</feature>
+		<feature>ssl-1.0</feature>
+		<feature>javaee-8.0</feature>
+	</featureManager>
+
+	<httpDispatcher enableWelcomePage="false"/>
+
+	<sslOptions id="memberSSLOptions" sslRef="defaultSSLConfig"/>
+
+	<sslDefault sslRef="defaultSSLConfig"/>
+
+	<httpEndpoint id="defaultHttpEndpoint" host="*"
+				  httpPort="${http-port}" httpsPort="${https-port}"
+				  sslOptionsRef="memberSSLOptions">
+		<tcpOptions>soReuseAddr="true"</tcpOptions>
+		<httpOptions readTimeout="5s" writeTimeout="5s"
+					 removeServerHeader="true"/>
+		<sslOptions>sslRef="defaultSSLConfig"</sslOptions>
+	</httpEndpoint>
+
+	<ssl id="defaultSSLConfig" securityLevel="HIGH"
+		 clientAuthenticationSupported="true" sslProtocol="TLSv1.2"
+		 keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore"/>
+
+	<keyStore password="${default-key-store-password}"
+			  location="${default-key-store}"
+			  id="defaultKeyStore"/>
+	<keyStore password="${default-trust-store-password}"
+			  location="${default-trust-store}" id="defaultTrustStore"/>
+
+	<logging traceSpecification="*=info" maxFiles="50"
+			 maxFileSize="20" logDirectory="${log-dir}"
+			 copySystemStreams="${copy-system-streams}"
+			 consoleLogLevel="${console-log-level}"/>
+
+	<requestTiming sampleRate="1" slowRequestThreshold="10s"
+				   hungRequestThreshold="50s" includeContextInfo="true"/>
+
+	<applicationMonitor dropinsEnabled="false"/>
+
+	<httpSession maxInMemorySessionCount="750"
+				 cookieSecure="true" allowOverflow="false"/>
+
+	<webAppSecurity ssoRequiresSSL="true"/>
+
+	<pluginConfiguration connectTimeout="4"
+						 serverIOTimeout="100"/>
+
+	<jaasLoginContextEntry name="KafkaClient"
+						   id="KafkaClient"
+						   loginModuleRef="jaasKafkaClient"/>
+
+	<jaasLoginModule id="jaasKafkaClient"
+					 className="com.ibm.security.auth.module.Krb5LoginModule"
+					 libraryRef="jaasSharedLib"
+					 controlFlag="REQUIRED">
+		<options debug="${kafkaDebug}"
+				 credsType="both"
+				 useDefaultCcache="false"
+				 tryFirstPass="true"
+				 forwardable="true"
+				 useKeytab="${kafkaKeytab}"
+				 principal="${kafkaPrincipal}">
+		</options>
+	</jaasLoginModule>
+
+	<library id="jaasSharedLib" apiTypeVisibility="spec, ibm-api, api">
+		<fileset dir="${server.config.dir}/lib/global/" includes="*"/>
+	</library>
+
+	<application name="${app-name}"
+				 context-root="${context-root}" location="${app-location}" type="war"/>
+
+
+</server>

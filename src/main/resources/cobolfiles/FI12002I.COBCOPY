@@ -1,0 +1,280 @@
+      *****************************************************************         
+      *                                                               *         
+      *  COPY BOOK NAME    : FI12002I      RECORD LENGTH : 0784       *         
+      *                                                               *         
+      *  Base24 Request Message Layout.                               *         
+      *                                                               *         
+      *---------------------------------------------------------------*         
+      *  Version           : 1.0                                      *         
+      *  Date last amended : 12/03/2014    by : Deepak                *         
+      *  Description       : Initial                                  *         
+      *  Amended           : 08/06/2015    by : Alocious              *         
+      *                      CR50 - Automated Fuel Dispenser          *         
+      *                    : 07/08/2015    by : Manimala              *         
+      *                      CR51 - Tokenisation                      *         
+      *                    : 10/03/2016    by : Manimala              *         
+      *                      CR51 - Wallet Provider Account Score     *         
+      *                      Halogen2 - Token Requestor ID            *         
+      *                    : 23/03/2016    by : Manimala              *         
+      *                      R3 Changes -                             *         
+      *                      1) CR56 -  Card Acceptor Country Code    *         
+      *                      2) CR51 -  Addln Fields (Device Location,*         
+      *                                 IP Address, Token-Exp-Date)   *         
+      *                    : 08/08/2017    by : Gopikrishna           *         
+      *                      VISA Changes - Handle new fields/values  *         
+      *                                     introduced by VISA 16.2   *         
+      *                                     & 17.1                    *         
+      *                    : 08/02/2017    by : Gopikrishna           *         
+      *                      VISA Changes - Handle new fields/values  *         
+      *                                     introduced by VISA 18.1   *         
+      *                    : 14/02/2019    by : Shunmuga              *         
+      *                      VISA Changes - Handle new fields/values  *         
+      *                                     introduced by VISA 19.1   *         
+      *                    : 24/04/2019                                         
+      *                      SP3          - Added a new field         *         
+      *                      Tokenisation   B24IN-NM-TOKEN-ASSUR-LEVEL*         
+      *                                     Changes are tagged under  *         
+      *                                     'SP3'                     *         
+      *                    : 27/05/2019    by : Suganya               *         
+      *                      SCA changes  - Handle new fields/values  *         
+      *                                     introduced by SCA         *         
+      *                    : 01/07/2019    by : Shunmuga              *         
+      *                      VISA changes - Handle new fields/values  *         
+      *                                     introduced by VISA 19.2   *         
+      *                    : 21/08/2019    by : Shunmuga              *         
+      *                      VAA changes  - Handle new fields/values  *         
+      *                                     introduced by VAA         *         
+      *                    : 22/01/2020    by : Neethu                *         
+      *                      VISA changes  - VISA 20.1 - Introduce TRA*         
+      *                                     score                     *         
+      *                    : 30/06/2020    by : Shunmuga              *         
+      *                      VISA 3DS      - removed the field        *         
+      *                      Changes      B24IN-DB-CONSUMER-DVC-IP-ADD*         
+      *                                   and replaced with 3DS       *         
+      *                                   version number and fillers  *         
+      *---------------------------------------------------------------*         
+      *****************************************************************         
+           03  B24IN-RECORD.                                                    
+      *---------------------------------------------------------------*         
+      *  General header Fields.                                       *         
+      *---------------------------------------------------------------*         
+               05 B24IN-HEADER.                                                 
+                  10 B24IN-HD-APP-DATA-LEN            PIC X(8).                 
+                  10 B24IN-HD-EX-HDR-DATA-LEN         PIC X(4).                 
+                  10 B24IN-HD-TRAN-CODE.                                        
+                     15 B24IN-HD-REPLY-IND            PIC X(1).                 
+                     15 B24IN-HD-TRAN-CODE-8          PIC X(8).                 
+                  10 B24IN-HD-SOURCE                  PIC X(10).                
+                  10 B24IN-HD-DESTINATION             PIC X(10).                
+                  10 B24IN-HD-ERROR                   PIC X(10).                
+                  10 B24IN-HD-REQUEST-TYPE            PIC X(8).                 
+                     88 B24IN-DBTRAN-REQUEST          VALUE 'DBTRAN  '.         
+                     88 B24IN-NONMON-REQUEST          VALUE 'NONMON  '.         
+                     88 B24IN-NMM-REQUEST             VALUE 'NETWORK '.         
+SCA            05 B24IN-BODY                          PIC X(791).               
+      *---------------------------------------------------------------*         
+      *  Monetary Messages Layout                                     *         
+      *---------------------------------------------------------------*         
+               05 B24IN-DB-DETAIL     REDEFINES B24IN-BODY.                     
+                  10 B24IN-DB-BRAND-ID                PIC X.                    
+                     88 B24IN-DB-VALID-BRAND-ID                                 
+                        VALUES 'L' 'H' 'B' 'V'.                                 
+                  10 B24IN-DB-PARTY-ID                PIC 9(10).                
+                  10 B24IN-DB-PARTY-ID-X              REDEFINES                 
+                     B24IN-DB-PARTY-ID                PIC X(10).                
+                  10 B24IN-DB-SORT-CODE               PIC 9(6).                 
+                  10 B24IN-DB-SORT-CODE-X             REDEFINES                 
+                     B24IN-DB-SORT-CODE               PIC X(6).                 
+                  10 B24IN-DB-ACCT-NO                 PIC 9(8).                 
+                  10 B24IN-DB-ACCT-NO-X               REDEFINES                 
+                     B24IN-DB-ACCT-NO                 PIC X(8).                 
+                  10 B24IN-DB-PAN                     PIC X(19).                
+                  10 B24IN-DB-CARD-EXP-DATE           PIC 9(8).                 
+                  10 B24IN-DB-CARD-EXP-DATE-X         REDEFINES                 
+                     B24IN-DB-CARD-EXP-DATE           PIC X(8).                 
+                  10 B24IN-DB-TRAN-DATE               PIC 9(8).                 
+                  10 B24IN-DB-TRAN-DATE-X             REDEFINES                 
+                     B24IN-DB-TRAN-DATE               PIC X(8).                 
+                  10 B24IN-DB-TRAN-TIME               PIC 9(6).                 
+                  10 B24IN-DB-TRAN-TIME-X             REDEFINES                 
+                     B24IN-DB-TRAN-TIME               PIC X(6).                 
+                  10 B24IN-DB-TRAN-AMT                PIC -9(9).99.             
+                  10 B24IN-DB-TRAN-AMT-X              REDEFINES                 
+                     B24IN-DB-TRAN-AMT                PIC X(13).                
+                  10 B24IN-DB-CURR-CODE               PIC X(3).                 
+                  10 B24IN-DB-CURR-CONV-RATE          PIC 9(6).9(6).            
+                  10 B24IN-DB-CURR-CONV-RATE-X        REDEFINES                 
+                     B24IN-DB-CURR-CONV-RATE          PIC X(13).                
+                  10 B24IN-DB-AUTH-DECS-CODE          PIC X.                    
+                  10 B24IN-DB-AUTH-DECL-CODE          PIC 9(3).                 
+                  10 B24IN-DB-AUTH-DECL-CODE-X        REDEFINES                 
+                     B24IN-DB-AUTH-DECL-CODE          PIC X(3).                 
+                  10 B24IN-DB-TRAN-TYPE               PIC X(2).                 
+                  10 B24IN-DB-MCC                     PIC 9(4).                 
+                  10 B24IN-DB-MCC-X                   REDEFINES                 
+                     B24IN-DB-MCC                     PIC X(4).                 
+                  10 B24IN-DB-MER-POST-CODE           PIC X(9).                 
+                  10 B24IN-DB-MER-CNTRY-CODE          PIC X(3).                 
+                  10 B24IN-DB-CVV-VRFY-CODE           PIC X.                    
+                  10 B24IN-DB-CVV2-PRSNT              PIC X.                    
+                  10 B24IN-DB-CVV2-RESP               PIC X.                    
+                  10 B24IN-DB-CVV3-PRSNT              PIC X.                    
+                  10 B24IN-DB-CVV3-VRFY-CODE          PIC X.                    
+                  10 B24IN-DB-ICVV-PRSNT              PIC X.                    
+                  10 B24IN-DB-ICVV-VRFY-CODE          PIC X.                    
+                  10 B24IN-DB-POS-ENTRY-MODE          PIC 9(2).                 
+                  10 B24IN-DB-POS-ENTRY-MODE-X        REDEFINES                 
+                     B24IN-DB-POS-ENTRY-MODE          PIC X(2).                 
+                  10 B24IN-DB-ATM-OWNER               PIC X.                    
+                  10 B24IN-DB-MCHNT-NAME              PIC X(40).                
+                  10 B24IN-DB-MCHNT-CITY              PIC X(30).                
+                  10 B24IN-DB-PAD-RESP                PIC X(2).                 
+                  10 B24IN-DB-PAD-EXP-DATE            PIC X(8).                 
+                  10 B24IN-DB-CARD-AIP                PIC X(2).                 
+                  10 B24IN-DB-AVL-BAL                 PIC -9(9).99.             
+                  10 B24IN-DB-AVL-BAL-X               REDEFINES                 
+                     B24IN-DB-AVL-BAL                 PIC X(13).                
+                  10 B24IN-DB-AVL-DLY-CASH-LIM        PIC -9(9).99.             
+                  10 B24IN-DB-AVL-DLY-CASH-LIM-X      REDEFINES                 
+                     B24IN-DB-AVL-DLY-CASH-LIM        PIC X(13).                
+                  10 B24IN-DB-AVL-DLY-POS-LIM         PIC -9(9).99.             
+                  10 B24IN-DB-AVL-DLY-POS-LIM-X       REDEFINES                 
+                     B24IN-DB-AVL-DLY-POS-LIM         PIC X(13).                
+                  10 B24IN-DB-AVS-REQT                PIC X.                    
+                  10 B24IN-DB-AVS-RESP                PIC X.                    
+                  10 B24IN-DB-ACQ-ID                  PIC X(12).                
+                  10 B24IN-DB-ACQ-CNTRY               PIC X(3).                 
+                  10 B24IN-DB-TERMINAL-ID             PIC X(16).                
+                  10 B24IN-DB-TERMIAL-TYPE            PIC X.                    
+                  10 B24IN-DB-TRMNL-ENTRY-CPBY        PIC X.                    
+                  10 B24IN-DB-POS-COND-CODE           PIC 9(2).                 
+                  10 B24IN-DB-POS-COND-CODE-X         REDEFINES                 
+                     B24IN-DB-POS-COND-CODE           PIC X(2).                 
+                  10 B24IN-DB-AUTH-EXP-DATE-VFY       PIC X.                    
+                  10 B24IN-DB-ECOM-IND                PIC X(2).                 
+                  10 B24IN-DB-AUTH-REV-REASON         PIC X.                    
+                  10 B24IN-DB-TRMNL-VFCN-RESULT       PIC X(10).                
+                  10 B24IN-DB-CARD-VFCN-RESULT        PIC X(8).                 
+                  10 B24IN-DB-CRYPTOGRAM-VALID        PIC X.                    
+                  10 B24IN-DB-ATC-CARD                PIC 9(5).                 
+                  10 B24IN-DB-ATC-CARD-X              REDEFINES                 
+                     B24IN-DB-ATC-CARD                PIC X(5).                 
+                  10 B24IN-DB-ATC-HOST                PIC 9(5).                 
+                  10 B24IN-DB-ATC-HOST-X              REDEFINES                 
+                     B24IN-DB-ATC-HOST                PIC X(5).                 
+                  10 B24IN-DB-STIP-IND                PIC X.                    
+                  10 B24IN-DB-MRCHNT-ID               PIC X(16).                
+                  10 B24IN-DB-CASHBK-AMT              PIC -9(9).99.             
+                  10 B24IN-DB-CASHBK-AMT-X            REDEFINES                 
+                     B24IN-DB-CASHBK-AMT              PIC X(13).                
+                  10 B24IN-DB-AUTH-ID                 PIC X(6).                 
+                  10 B24IN-DB-CRDHLDR-SNAME           PIC X(6).                 
+                  10 B24IN-DB-CRDHLDR-DOB             PIC X(8).                 
+                  10 B24IN-DB-CRDHLDR-POST-CODE       PIC X(6).                 
+                  10 B24IN-DB-RECPNT-PARTIAL-PAN      PIC X(10).                
+                  10 B24IN-DB-AGNT-UNQ-ID             PIC X(5).                 
+                  10 B24IN-DB-ADD-AUTH-MTHD           PIC X(2).                 
+                  10 B24IN-DB-ADD-AUTH-RSN-CODE       PIC X(2).                 
+                  10 B24IN-DB-LIS5-TRAN-CODE          PIC X(2).                 
+                  10 B24IN-DB-DEPOSIT-IND             PIC X.                    
+                  10 B24IN-DB-TM-CPBLTY-PROF          PIC X(6).                 
+                  10 B24IN-DB-MAX-OFF-AUTH            PIC X(3).                 
+                  10 B24IN-DB-AFD-PART-APP-IND        PIC X(1).                 
+                  10 B24IN-DB-AFD-CONF-ADV-IND        PIC X(1).                 
+                  10 B24IN-DB-AFD-MAX-AUTH-AMT        PIC X(13).                
+SP3               10 B24IN-DB-ATM-DEP-CHEQUE-AMT                                
+SP3                  REDEFINES B24IN-DB-AFD-MAX-AUTH-AMT                        
+SP3                                                   PIC X(13).                
+TOKEN             10 B24IN-DB-CHIP-TRAN-IND           PIC X(01).                
+TOKEN             10 B24IN-DB-MSG-RSN-CD              PIC X(04).                
+TOKEN             10 B24IN-DB-CARD-MTHD-IND           PIC X(01).                
+TOKEN             10 B24IN-DB-ACCT-VLCTY-RSLT         PIC X(02).                
+TOKEN             10 B24IN-DB-MTHD-AT-POS             PIC X(08).                
+TOKEN             10 B24IN-DB-PYMT-TOKEN              PIC X(19).                
+TOKEN             10 B24IN-DB-PYMT-TKN-ASSURE         PIC X(02).                
+TOKEN             10 B24IN-DB-PYMT-TKN-REQID          PIC X(11).                
+TOKEN             10 B24IN-DB-PYMT-TOKEN-TYPE         PIC X(02).                
+TOKEN             10 B24IN-DB-ENRL-TOKEN-SCR          PIC X(02).                
+TOKEN             10 B24IN-DB-ENRL-TKN-ACTV           PIC X(02).                
+TOKEN             10 B24IN-DB-ENRL-TKN-INACTV         PIC X(02).                
+TOKEN             10 B24IN-DB-ENRL-TKN-SUSPND         PIC X(02).                
+TOKEN             10 B24IN-DB-ENRL-DEVICE-TYP         PIC X(02).                
+TOKEN             10 B24IN-DB-ENRL-DEVICE-NO          PIC X(15).                
+TOKEN             10 B24IN-DB-ENRL-RISK-ASMNT         PIC X(01).                
+TOKEN             10 B24IN-DB-ENRL-DEVICE-SCR         PIC X(02).                
+TOKEN             10 B24IN-DB-ENRL-WALLET-CODE        PIC X(30).                
+TOKEN             10 B24IN-DB-ENRL-PAN-SOURCE         PIC X(02).                
+TOKEN             10 B24IN-DB-DEVICE-SECURE-ID        PIC X(48).                
+TOKEN             10 B24IN-DB-ENRL-TKN-REF-ID         PIC X(32).                
+CR51              10 B24IN-DB-WALLET-ACCNT-SCR        PIC X(02).                
+CR56              10 B24IN-DB-CARD-ACPT-CNTRY-CD      PIC X(02).                
+CR51              10 B24IN-DB-DEVICE-LOCATION         PIC X(25).                
+CR51              10 B24IN-DB-IP-ADDRESS              PIC X(15).                
+CR51              10 B24IN-DB-TKN-EXPIRY-DT           PIC X(04).                
+VISA              10 B24IN-DB-ADDN-AUTH-IN            PIC X(1).                 
+VISA              10 B24IN-DB-STIP-RSN-CD             PIC X(4).                 
+VI20.1            10 B24IN-DB-AUTH-MTHD               PIC X(2).                 
+VISA              10 B24IN-DB-SECURE-3D-IN            PIC X(1).                 
+VISA              10 B24IN-DB-POS-ENV                 PIC X(1).                 
+VI18.2            10 B24IN-DB-CAVV-RSLT-CD            PIC X(1).                 
+                  10 B24IN-DB-CRYPTO-CURR-IND         PIC X(1).                 
+SCA               10 B24IN-DB-DIGITAL-COMMERCE-IN     PIC X(2).                 
+VI3DS             10 B24IN-DB-3DS-VRSN-NO             PIC X(8).                 
+VI3DS             10 FILLER                           PIC X(31).                
+SCA               10 B24IN-DB-VCAS-SCORE              PIC X(2).                 
+SCA               10 B24IN-DB-LOW-VAL-EXM-IN          PIC X(1).                 
+SCA               10 B24IN-DB-TRA-EXM-IN              PIC X(1).                 
+SCA               10 B24IN-DB-TRUS-MER-EXM-IN         PIC X(1).                 
+SCA               10 B24IN-DB-SCP-IN                  PIC X(1).                 
+SCA               10 B24IN-DB-SCA-EXM-APPL-IN         PIC X(1).                 
+SCA               10 B24IN-DB-SCA-DELG-AUTH-IN        PIC X(1).                 
+VI19.2            10 B24IN-DB-INIT-PRTY-EXM-IN        PIC X(1).                 
+VAA               10 B24IN-DB-VAA-RISK-SCORE          PIC X(2).                 
+VAA               10 B24IN-DB-VAA-CARCC               PIC X(2).                 
+VAA               10 B24IN-DB-VAA-CER-ID              PIC X(2).                 
+VI20.1            10 B24IN-DB-TRA-SCORE               PIC X(2).                 
+VI3DS             10 B24IN-DB-FILLER1                 PIC X(64).                
+      *---------------------------------------------------------------*         
+      *  Network Messages  Layout                                     *         
+      *---------------------------------------------------------------*         
+               05 B24IN-NT-DETAIL     REDEFINES B24IN-BODY.                     
+SCA               10 B24IN-NT-FILLER                  PIC X(791).               
+      *---------------------------------------------------------------*         
+      *  NonMon Messages Layout                                       *         
+      *---------------------------------------------------------------*         
+               05 B24IN-NM-DETAIL     REDEFINES B24IN-BODY.                     
+                  10 B24IN-NM-BRAND-ID                PIC X.                    
+                     88 B24IN-NM-VALID-BRAND-ID                                 
+                        VALUES 'L' 'H' 'B' 'V'.                                 
+                  10 B24IN-NM-PARTY-ID                PIC 9(10).                
+                  10 B24IN-NM-PARTY-ID-X              REDEFINES                 
+                     B24IN-NM-PARTY-ID                PIC X(10).                
+                  10 B24IN-NM-SORT-CODE               PIC 9(6).                 
+                  10 B24IN-NM-SORT-CODE-X             REDEFINES                 
+                     B24IN-NM-SORT-CODE               PIC X(6).                 
+                  10 B24IN-NM-ACCT-NO                 PIC 9(8).                 
+                  10 B24IN-NM-ACCT-NO-X               REDEFINES                 
+                     B24IN-NM-ACCT-NO                 PIC X(8).                 
+                  10 B24IN-NM-PAN                     PIC X(19).                
+                  10 B24IN-NM-TRAN-DATE               PIC 9(8).                 
+                  10 B24IN-NM-TRAN-DATE-X             REDEFINES                 
+                     B24IN-NM-TRAN-DATE               PIC X(8).                 
+                  10 B24IN-NM-TRAN-TIME               PIC 9(6).                 
+                  10 B24IN-NM-TRAN-TIME-X             REDEFINES                 
+                     B24IN-NM-TRAN-TIME               PIC X(6).                 
+                  10 B24IN-NM-TRAN-CODE               PIC X(2).                 
+                  10 B24IN-NM-RESP-CODE               PIC X(3).                 
+                  10 B24IN-NM-TRMNL-ID                PIC X(16).                
+TOKEN             10 B24IN-NM-MSG-RSN-CD              PIC X(4).                 
+TOKEN             10 B24IN-NM-CARD-EXPIRY-DT          PIC X(4).                 
+TOKEN             10 B24IN-NM-TOKEN                   PIC X(19).                
+TOKEN             10 B24IN-NM-TKN-TYPE                PIC X(2).                 
+TOKEN             10 B24IN-NM-TKN-STATUS              PIC X(1).                 
+TOKEN             10 B24IN-NM-ACTVTN-VERFTN-RSLT      PIC X(1).                 
+TOKEN             10 B24IN-NM-PAN-SOURCE              PIC X(2).                 
+TOKEN             10 B24IN-NM-DEVICE-SECURE-ID        PIC X(48).                
+TOKEN             10 B24IN-NM-TKN-REF-ID              PIC X(32).                
+HAL2              10 B24IN-NM-TOKEN-REQID             PIC X(11).                
+                  10 B24IN-NM-CARDHOLDER-NAME         PIC X(26).                
+SP3               10 B24IN-NM-TOKEN-ASSUR-LEVEL       PIC X(02).                
+SCA               10 B24IN-NM-FILLER                  PIC X(560).               

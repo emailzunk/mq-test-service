@@ -1,0 +1,27 @@
+rancher:
+  service:
+    name: 'mq-test-service'
+  loadBalancer:
+    healthCheck:
+      endpoint: 'mq-test-service.secfraud.sbx.zone/mq-test-service/blue/isActive'
+      timeout: 360
+
+urbancode:
+  component:
+    name: 'mq-test-service_WLP-ImmutableBuild'
+    bootstrapComponent: 'mq-test-service_WLP-Bootstraps'
+    groupId: 'com.lloydsbanking.fraud'
+    artifactId: 'mq-test-service'
+    artifactType: 'zip'
+  credentialsId: 'urbanCodeFASPToken'
+  deploy: true
+  hotDeploy: true
+  application:
+    name: 'CF - FASP - mq-test-service'
+  deployment:
+    processName: 'FASP Application Release'
+    processProperties: ''
+  nexusServer: 'https://nexus.sbx.zone/repository/maven-releases'
+  environment:
+    release: 'CMO-TEST,CMO-TEST-2'
+    hotfix: 'CMO-TEST,CMO-TEST-2'

@@ -1,0 +1,64 @@
+# common properties
+server:
+  servlet:
+    contextPath: /inbound-events-service/v1.0
+  port: 9080
+
+info:
+  app:
+    name: inbound-events-service
+    version: v1.0
+    description: inbound-events-service
+spring:
+  profiles:
+    default: development, resilience
+    active: development, resilience
+
+kafka-topic-config:
+  mapKafkaTopic:
+    AUTOMATED_ACTION: ${automatedActionTopic}
+    DEFERRED_SCORE_RESPONSE: ${deferredScoreResponceTopic}
+    EVENT_STATUS_UPDATE: ${eventStatusUpdateTopic}
+    USER_INVOKED_ACTION: ${userInvokeActionTopic}
+
+kafka:
+  bootstrapServer: ${bootstrapServer}
+  securityProtocol: ${securityProtocol}
+  kerberosService: ${kerberosService}
+  lingerInMilliseconds: ${lingerInMilliseconds}
+  acks: ${acks}
+  retries: ${retries}
+  requestTimeout: ${requestTimeout}
+  bufferMemory: ${bufferMemory}
+  batchSize: ${batchSize}
+  compressionType: ${compressionType}
+  truststore:
+    location: ${default-trust-store}
+    password: ${default-trust-store-password}
+    trustStoreKey: ${trustStoreKey}
+    trustStorePassword: ${trustStorePassword}
+  kerberos:
+    kinit: ${kafkaKerberosKinit}
+  consumer:
+    deliveryTimeoutMs: ${kafkaConsumerDeliveryTimeoutMs}
+
+environmentIEP: ${environmentIEP}
+
+resilience-config:
+  registerHealthIndicator: ${registerHealthIndicator}
+  slidingWindowType: ${slidingWindowType}
+  slidingWindowSize: ${slidingWindowSize}
+  minimumNumberOfCalls: ${minimumNumberOfCalls}
+  failureRateThreshold: ${failureRateThreshold}
+  waitDurationInOpenState: ${waitDurationInOpenState}
+  permittedNumberOfCallsInHalfOpenState: ${permittedNumberOfCallsInHalfOpenState}
+  automaticTransitionFromOpenToHalfOpenEnabled: ${automaticTransitionFromOpenToHalfOpenEnabled}
+  eventConsumerBufferSize: ${eventConsumerBufferSize}
+  slowCallDurationThreshold: ${slowCallDurationThreshold}
+  slowCallRateThreshold: ${slowCallRateThreshold}
+  cancelRunningFuture: ${cancelRunningFuture}
+  timeoutDuration: ${timeoutDuration}
+  maxThreadPoolSize: ${maxThreadPoolSize}
+  coreThreadPoolSize: ${coreThreadPoolSize}
+  queueCapacity: ${queueCapacity}
+  keepAliveDuration: ${keepAliveDuration}

@@ -1,0 +1,72 @@
+# common properties
+# Use the properties below for Sandbox
+server:
+  servlet:
+    contextPath: /mq-test-service/v1.0
+  port: 9080
+
+info:
+  app:
+    name: mq-test-service
+    version: v1.0
+    description: mq-test-service
+
+spring:
+  profiles:
+    default: development, resilience
+    active: development, resilience
+
+kafka-topic-config:
+  mapKafkaTopic:
+    AUTOMATED_ACTION: FRAUD_EVENTS_AUTOMATED_ACTION
+    DEFERRED_SCORE_RESPONSE: FRAUD_DEFERRED_SCORE_RESPONSE
+    EVENT_STATUS_UPDATE: FRAUD_EVENTS_STATUS_UPDATE
+    USER_INVOKED_ACTION: FRAUD_USER_INVOKE_ACTION
+
+kafka:
+  bootstrapServer: dev-p58-app-05.sandbox.local:9098
+  securityProtocol: PLAINTEXT
+  kerberosService: kafkaq
+  lingerInMilliseconds: 10
+  acks: all
+  retries: 3
+  requestTimeout: 10000
+  bufferMemory: 200000
+  batchSize: 16384
+  compressionType: none
+  truststore:
+    protocol: TLSv1.2
+    location: OUTBOUND_TLS_TRUSTSTORE
+    password: OUTBOUND_TLS_TRUSTSTORE_PASSWORD
+    trustStoreKey: trustStoreKey
+    trustStorePassword: trustStorePassword
+  kerberos:
+    kinit: /usr/bin/kinit
+  consumer:
+    #delivery timeout should be greater than linger.ms(10ms) + request.timeout.ms(30sec default)
+    deliveryTimeoutMs: 31000
+
+environmentIEP: SANDBOX
+
+resilience-config:
+  registerHealthIndicator: true
+  slidingWindowType: TIME_BASED
+  slidingWindowSize: 60
+  minimumNumberOfCalls: 10
+  failureRateThreshold: 60
+  slowCallDurationThreshold: 4000
+  slowCallRateThreshold: 50
+  waitDurationInOpenState: 5
+  permittedNumberOfCallsInHalfOpenState: 1
+  automaticTransitionFromOpenToHalfOpenEnabled: true
+  eventConsumerBufferSize: 10
+  cancelRunningFuture: true
+  timeoutDuration: 10
+  maxThreadPoolSize: 10
+  coreThreadPoolSize: 5
+  queueCapacity: 1
+  keepAliveDuration: 1000
+
+jks:
+  keyStoreSecret: Y0BwcHVjMW4w
+  trustStoreSecret: YXBwc2lnbg==

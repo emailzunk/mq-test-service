@@ -1,0 +1,7 @@
+      01 WS-STUDENT-REC.
+          05 WS-STUDENT-NUMBER          PIC X(5).
+          05 WS-STUDENT-NAME.
+              10 WS-STUDENT-INITIALS    PIC X(5).
+              10 WS-STUDENT-SURNAME     PIC X(5).
+          05 WS-STUDENT-MOBILENUMBER    PIC X(11).
+          05 WS-STUDENT-DOB             PIC X(10).

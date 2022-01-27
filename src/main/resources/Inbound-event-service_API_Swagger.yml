@@ -1,0 +1,155 @@
+swagger: '2.0'
+info:
+  version: V1.0.0
+  title: DRE - Inbound Event Service - API Documentation
+  license: {}
+host: ''
+basePath: /inbound-events-service/v1.0
+tags:
+  - name: inbound-events-controller
+    description: Inbound Events Controller
+paths:
+  /events:
+    post:
+      tags:
+        - inbound-events-controller
+      summary: acceptInboundEvents
+      operationId: acceptInboundEventsUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: request
+          description: request
+          required: true
+          schema:
+            $ref: '#/definitions/InboundEventsRequest'
+        - name: x-lbg-txn-correlation-id
+          in: header
+          description: x-lbg-txn-correlation-id
+          required: true
+          type: string
+      responses:
+        '202':
+          description: Accepted
+          schema:
+            $ref: '#/definitions/Callable«ResponseEntity«InboundEventResponses»»'
+        '400':
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/InboundEventResponses'
+        '401':
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/InboundEventResponses'
+        '404':
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/InboundEventResponses'
+        '405':
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/InboundEventResponses'
+        '406':
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/InboundEventResponses'
+        '415':
+          description: Unsupported media type error
+          schema:
+            $ref: '#/definitions/InboundEventResponses'
+        '429':
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/InboundEventResponses'
+        '500':
+          description: An unexpected server error occurred
+          schema:
+            $ref: '#/definitions/InboundEventResponses'
+        '503':
+          description: Service unavailable error
+          schema:
+            $ref: '#/definitions/InboundEventResponses'
+      deprecated: false
+definitions:
+  Callable«ResponseEntity«InboundEventResponses»»:
+    type: object
+    title: Callable«ResponseEntity«InboundEventResponses»»
+  EventBody:
+    type: object
+    properties:
+      alertDetails:
+        type: object
+      customerDetails:
+        type: object
+      deferredScoreResponses:
+        type: object
+      eventDetails:
+        type: object
+    title: EventBody
+  EventErrors:
+    type: object
+    properties:
+      dreEventID:
+        type: string
+      eventErrorCode:
+        type: string
+      eventErrorMessage:
+        type: string
+      eventStatusCode:
+        type: string
+    title: EventErrors
+  EventHead:
+    type: object
+    properties:
+      application:
+        type: string
+      channel:
+        type: string
+      division:
+        type: string
+      dreEventID:
+        type: string
+      eventType:
+        type: string
+      inboundEventDateTime:
+        type: string
+        example: '2020-09-28T11:52:44.061Z'
+        description: It should be in ISO format
+      subChannel:
+        type: string
+    title: EventHead
+  EventsResponse:
+    type: object
+    properties:
+      eventResponses:
+        type: array
+        items:
+          $ref: '#/definitions/EventErrors'
+      xLbgTxnCorrelationId:
+        type: string
+    title: EventsResponse
+  InboundEvent:
+    type: object
+    properties:
+      eventBody:
+        $ref: '#/definitions/EventBody'
+      eventHead:
+        $ref: '#/definitions/EventHead'
+    title: InboundEvent
+  InboundEventResponses:
+    type: object
+    properties:
+      inbountEventResponse:
+        $ref: '#/definitions/EventsResponse'
+    title: InboundEventResponses
+  InboundEventsRequest:
+    type: object
+    properties:
+      inboundEvents:
+        type: array
+        items:
+          $ref: '#/definitions/InboundEvent'
+    title: InboundEventsRequest

@@ -1,0 +1,45 @@
+branch:
+  model: 'trunkBased'
+
+maven:
+  goals:
+    verify:
+      command: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent verify'
+      timeout: 10
+    bdd:
+      job: 'dream-continuous-integration-test'
+      cucumber:
+        targetPath: 'target/cucumber'
+#    gatling:
+#      command: 'gatling:test'
+#      timeout: 10
+#    pact:
+#      publish:
+#        command: 'pact:publish'
+#      verify:
+#        command: 'pact:verify'
+
+sonar:
+  qualityGate:
+    enabled: true
+    timeout: 4
+  sast:
+    enabled: true
+
+#veracode:
+#  application:
+#    name: 'inbound-events-service'
+#  uploadAndScan:
+#    businessCriticality: 'VeryHigh'
+#    copyRemoteFiles: true
+#    debug: true
+#    failJenkinsJob: true
+#    includeFilePathsPattern: '*/*.jar'
+#    proxy:
+#      host: 'proxy.sandbox.local'
+#      port: '3128'
+#    timeout: 30
+#    waitForCompletion: true
+
+notify:
+  hipchat: 'DRE Channel Complaince'
