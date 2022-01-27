@@ -24,3 +24,12 @@ Run the application locally:
 ```
 
 View the application here: [http://localhost:9080](http://localhost:9080)
+
+### JRecord POC
+
+Run the main application to generate the java client files - update the line to your own machine - 
+
+C:/Users/8519657/code/mq-test-service/src/main/resources/cobolfiles/NEW.COBCOPY
+
+Once generated, you can use the file ReadNew.java to read in a data file (specified in the class) and output the contents to console
+
